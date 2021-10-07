@@ -1,0 +1,26 @@
+
+************************
+TUTORIALS
+************************
+https://www.youtube.com/watch?v=seaBeltaKhw
+https://www.youtube.com/watch?v=97q30JjEq9Y
+
+
+
+***********************
+NOTES
+***********************
+
+Lambda on funktio, josta maksetaan käytön perusteella. Jos ei ole käyttöä ei ole kulujakaan.
+Lambda funktio voidaan käynnistää monista eri palveluista, joten se ei välttämättä liity pelkästään UI tai laite pohjaiseen kutsuun. Käynnistys voi tulla myös muualta.
+Lambda funkio toiminnallisuuksia käynnistetään sen verran kuin palvelulle on tarvetta. Eli funktiota monistetaan tarvittaessa.
+Toiminta määritellään JavaScript koodilla
+Se mistä funktiota saa käyttää määritellään IAM roolin avulla.
+
+
+**********************
+QUESTIONS ??
+**********************
+
+EPC paketissa on 70 erilaista lambda funktiota. Mitkä niistä ovat oikeasti käytössä ja mihin tarkoituksen ?
+Miten funktiota kutsutaan muista resursseista ?

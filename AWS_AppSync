@@ -1,0 +1,29 @@
+
+************************
+TUTORIALS
+************************
+
+Aika vaikeaa on löytää hyvää esitystä siitä miten asiat tehdään ja mikä on palasten merkitys kokonaisuudessa.
+
+https://www.youtube.com/watch?v=O-nr3983-ZY     :  Aivan perusteet markkinointi mieheltä
+https://www.youtube.com/watch?v=lLVI_kA_XPM		: basics, ehkä selkein esitys
+https://www.youtube.com/watch?v=Cs5e9vbjNdU		: GraphQL Appsync API
+
+
+***********************
+NOTES
+***********************
+
+AppSync on tavallaan gateway tai konversio mokkula joka kääntää GraphQL muotoiset API kutsut muille palveluille sopiviksi (DynamoDB, Lambda etc)
+AppSync on palvelu (resurssi), jonka avulla kutsut toisiin palveluihin saadaan tehtyä GraphQL schema avulla yhden pisteen kautta. 
+Kustannus käytön mukaan,
+Cachen käyttö on myös mahdollista. Vaikttaa hintaan ja nopeuteen.
+
+**********************
+QUESTIONS ??
+**********************
+
+Miten Appsync APIa käytetään ulkopuolelta ? WEB UI tai Ulkoisen laitteen kutsu
+Miten AppSync valitsee mihin kohteeeseen pyyntö lähetettään ja miten kutsu muotoillaan ?
+Mikä on Lambda funktion merkitys ?
+Mitkä API:t ja DB:t ovat oikeasti käytössä ? Ja mihin tarkoitukseen ?
