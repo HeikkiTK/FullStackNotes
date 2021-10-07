@@ -1,0 +1,104 @@
+
+** HAARAAN MAIN TEHTY MUUTOS.... **
+
+Muistiinpano tiedosto.
+
+GIT : versionhallinta ohjelmisto
+GITHUB : paikka minnen missä remote repo sijaitsee ja jota hallinoidaan web liittymän avulla
+GIT bash : komentorivi omalla tietokoneella
+
+https://www.youtube.com/watch?v=RGOj5yH7evk
+
+*******************
+Prosessi
+*******************
+
+git clone : jos lataat ensimmäistä kertaa repoa omalle koneellesi.
+
+Uuden tiedoston kanssa
+    git add file.txt
+    git commit -m "Commit viesti jos et halua avata teksti editoria ja todennäköisesti et"
+    git push
+
+Jos remote GIT on muutettu verrattuna lokaaliin
+    git pull  : jotta päivität lokaalin vastaamaan remote sisältöä. 
+	
+	
+	git add - > git commit -> git push -> pull request
+		pull request tehdään kun oman haaran muutokset on siirretty remote repoon samaiseen haaraan. Ja webtoolissa pyydetään ko haaran liittämistä takaisin masteriin.
+
+*******************
+Käskyjä
+*******************
+
+#CLONE
+git clone https://polku : käskyllä saa kloonattua jonkun toisen repon omalle koneelle
+
+#INIT
+git init : initialisoi paikallisen hakemiston GIT käyttöön. Hakemistoa ei kuitenkaan ole vielä kytketty mihinkään
+
+#REMOTE
+git remote add origin https://github.com/HeikkiTK/Harjoitus2.git 
+git remote -v : Näyttää kaikki repot yhdistettynä
+
+#ADD
+git add file.txt:  lisää uuden tiedoston versionhallintaan
+    git add .
+    git add -A  : molemmat lisäävät kaikki tiedostot mukaan
+#COMMIT
+git commit -m "viesti" : Lukitsee tiedoston ja liittää siihen viestin
+git commit -am "viesti" : Lukitsee tiedoston, lisää sen seurattaviin ja liittää siihen viestin. Tehdään add ja commit samanaikaisesti. Toimii vain 'modified' tiedostoille 
+	Commit luo uuden HEAD:in 
+
+#PUSH
+git push tiedosto.txt : lisää tiedoston remote repoon
+git push : lisää kaikki muutetut ja kommitoidut tiedostot
+git push origin main : työnnetään muutetut tiedostot main haaraan
+	git push -u origin main : Laittaa oletukseksi push käskylle optiot origin ja main.
+git push --set-upstream origin haara1 : kerrotaan mihin haaraan tiedosto viedään.
+
+#PULL
+git pull : haetaan tiedosti remote reposta
+
+#BRANCH
+git branch : näyttää olemassa olevien haarojen nimet ja korostaa sen haaran jossa ollaan sillä hetkellä. Haara näkyy myös komentorivillä viimeisenä.
+
+#CHECKOUT
+git checkout -b haaran_nimi : Saadaan luotua uusi haara nimeltään haaran_nimi
+git checkout haaran_nimi : Siirtää siihen haaran jonka nimi annetaan ohjeena. Muista tallentaa muutetut tiedostot ennen haaran vaihtoa
+git branch -d haaran_nimi : deletoi sen haaran jota ei haluta enää käyttää
+
+	NOTE : uuteen haaraan pitää tiedostot lisätä git add käskyllä
+
+#FORK
+	haarauttaa alkupeäisen repon täysin uudeksi ja irralliseksi repoksi
+
+
+#DIFF
+git diff haaran_nimi : näyttää erot johonkin haaraan nähden eli käskyä antaessa pitää olla main haarassa
+
+#MERGE
+git merge haaran_nimi : Yhdistäminen tehdään main haarassa tai jos haara on jaettu niin päähaarassa.
+	Pelkkä merge on mahdollinen, mutta parempi tapa on tehdä pull request, jonka avulla tarkistuksen jälkeen haara liitetään main haaraan
+	Pull requestin voi tehdä web toolilla tai komentorivillä
+	Merge konfliktien purkaminen ei onnistu suoraan peruseditorilla, se ei näytä vertailueroja.
+
+#RESET
+git reset tiedoston_nimi : palauttaa halutun tiedoston edelliseen tilaan add komennnon jälkeen
+git reset HEAD~1 : palauttaa edelliseen HEAD:iin commit kommennon jälkeen.
+git reset -hard #HASH_code_from_log : Palauttaa siihen tilaan mikä on ollut valitun HASH koodin mukainen
+
+#LOG
+git log : näyttää kaikki edelliset commitit aika järjestyksessä. space vie eteenpäin listassa, q poistu listasta
+
+
+
+*********************
+Huomioita
+*********************
+Jostain syystä Visual studion save ei oikein toimi ja tallenna tiedostoa edes ilman GIT:iin lisäystä hakemistoon ??
+
+commit editor
+    i : käynnistää inline editorin
+    yläkulma + esc : lopettaa editoinnin
+    alin rivi : :x! sulkee editorin

@@ -1,0 +1,28 @@
+
+*****************
+TUTORIALS
+*****************
+
+https://www.youtube.com/watch?v=ZPNnY9nmnio    : Lyhyesti perusteitsa
+https://www.youtube.com/watch?v=onJta3J8814    : Lyhyesti esimerkin avulla
+
+
+https://aws.amazon.com/apmplify/
+
+*****************
+NOTES
+*****************
+
+Aplify on JavaScript kirjasto (framework), jonka avulla applikaation kehitystä saadaan nopeutettua. Setti backend työkaluja joita voidaa yhdistää web applikaatioon.
+Sisältää erilaisia moduleita, joita voidaan hyödyntää kehityksessä
+mm. authorisointi, Analytiikka, tallennus, API, UI komponentit jne
+API voi olla toteutettu GraphQL tai REST periaattella
+UI voidaan toteuttaa REAC:tilla
+
+*****************
+EPC TOTEUTUS
+*****************
+Näyttäisi siltä, EPC toteutus ei käytä Amplify backendiä lainkaan.
+
+***************************************************
+***************************************************

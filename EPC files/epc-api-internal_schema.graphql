@@ -1,0 +1,379 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Activities {
+  items: [Activity]
+  nextToken: String
+}
+
+#  AWS Types
+#scalar AWSJSON
+#directive @aws_auth(cognito_groups: [String]) on FIELD_DEFINITION
+#directive @aws_subscribe(mutations: [String]) on FIELD_DEFINITION
+# Activity
+type Activity {
+  createdAt: String!
+  createdBy: ID!
+  details: AWSJSON
+  inverterId: String!
+  timestamp: String!
+  type: String!
+}
+
+#  Association {
+type Association {
+  #  TODO: Make mandatory once all rows migrated
+  createdAt: String
+  createdBy: String
+  customer: Customer
+  file: File
+  id: String!
+  inverter: Inverter
+  model: Model
+  owner: String
+  site: Site
+}
+
+type Associations {
+  items: [Association]
+  nextToken: String
+}
+
+type AssociationsForInverter {
+  associations: [Association]
+  serialNumber: String
+}
+
+#  Customer
+type Customer {
+  city: String
+  contact: String
+  country: String
+  id: ID!
+  name: String!
+  notes: String
+  state: String
+  street: String
+  zip: String
+}
+
+type Customers {
+  items: [Customer]
+  nextToken: String
+}
+
+# type Note {
+#  id: ID!
+#  body: String
+#  title: String
+#  updatedAt: String!
+#  updatedBy: ID!
+#}
+# Fault Log
+type FaultLog {
+  createdAt: String!
+  errorCode: String
+  file: File
+  id: ID!
+  inverter: Inverter!
+  notes: String
+  updatedAt: String!
+  updatedBy: String!
+}
+
+type FaultLogs {
+  items: [FaultLog]
+  nextToken: String
+}
+
+type File {
+  association: Association
+  createdAt: String!
+  createdBy: String
+  description: String
+  filename: String!
+  hash: String
+  id: ID!
+  notes: String
+  owner: String
+  type: FileType!
+  updatedAt: String
+  updatedBy: String
+  version: String
+}
+
+type Files {
+  items: [File]
+  nextToken: String
+}
+
+# type AccessDetails {
+#    createdAt: String!
+#    createdBy: ID
+#    updatedAt: String!
+#    updatedBy: ID
+#}
+type HashAndCopyResult {
+  hash: String
+}
+
+#  Inverter
+type Inverter {
+  createdAt: String!
+  deploymentDate: String
+  id: ID!
+  manufactureDate: String
+  model: Model!
+  notes: String
+  optionCodes: String
+  serialNumber: String!
+  site: Site!
+  testDate: String
+}
+
+type Inverters {
+  items: [Inverter]
+  nextToken: String
+}
+
+#  Model
+type Model {
+  description: String
+  id: ID!
+  name: String!
+  notes: String
+  partNumber: String!
+}
+
+type Models {
+  items: [Model]
+  nextToken: String
+}
+
+type Mutation {
+  createActivity(details: AWSJSON, inverterId: String!, timestamp: String!, type: String!): Activity!
+  #   updateActivity(id: ID!, notes: String): Activity
+  createAssociation(customerId: ID, fileId: ID!, inverterId: ID, modelId: ID, siteId: ID): Association!
+  createCustomer(city: String, contact: String, country: String, id: ID, name: String!, notes: String, state: String, street: String, zip: String): Customer! @aws_auth(cognito_groups : ["admin"])
+  createFaultLog(errorCode: String, fileId: String, inverterId: ID!, notes: String, timestamp: String): FaultLog! @aws_auth(cognito_groups : ["admin"])
+  #   updateFaultLog(id: ID!, notes: String): FaultLog!
+  createFile(description: String, filename: String!, hash: String!, id: ID, notes: String, type: FileType, version: String): File!
+  createInverter(deploymentDate: String, description: String, id: ID, manufactureDate: String, modelId: ID!, notes: String, optionCodes: String, serialNumber: String!, siteId: ID!, testDate: String): Inverter! @aws_auth(cognito_groups : ["admin"])
+  createModel(description: String, id: ID, name: String!, notes: String, partNumber: String!): Model! @aws_auth(cognito_groups : ["admin"])
+  createSite(city: String, country: String, customerId: ID!, id: ID, latitude: Float, longitude: Float, name: String!, notes: String, state: String, street: String, zip: String): Site! @aws_auth(cognito_groups : ["admin"])
+  createUser(customerId: ID!, email: String!, group: UserGroup!, name: String, phone_number: String, title: String, username: String): User @aws_auth(cognito_groups : ["admin"])
+  debug(input: String): AWSJSON @aws_auth(cognito_groups : ["admin"])
+  deleteAssociation(fileId: ID!, id: ID!): Association @aws_auth(cognito_groups : ["admin"])
+  deleteCustomer(id: ID!): Customer @aws_auth(cognito_groups : ["admin"])
+  deleteFile(id: ID!): File @aws_auth(cognito_groups : ["admin"])
+  deleteInverter(id: ID!): Inverter @aws_auth(cognito_groups : ["admin"])
+  deleteModel(id: ID!): Model! @aws_auth(cognito_groups : ["admin"])
+  deleteSite(id: ID!): Site @aws_auth(cognito_groups : ["admin"])
+  disableUser(disabled: Boolean!, username: String!): User @aws_auth(cognito_groups : ["admin"])
+  #  takes filename within /uploads folder, returns hash within /files folder
+  hashAndCopy(filename: String!): HashAndCopyResult! @aws_auth(cognito_groups : ["admin"])
+  updateCustomer(city: String, contact: String, country: String, id: ID!, name: String, notes: String, state: String, street: String, zip: String): Customer! @aws_auth(cognito_groups : ["admin"])
+  updateFaultLog(errorCode: String, fileId: String, id: ID!, inverterId: ID, notes: String, timestamp: String): FaultLog! @aws_auth(cognito_groups : ["admin"])
+  updateFile(description: String, filename: String, id: ID!, notes: String, type: FileType, version: String): File!
+  updateInverter(deploymentDate: String, description: String, id: ID!, manufactureDate: String, modelId: ID, notes: String, optionCodes: String, serialNumber: String, siteId: ID, testDate: String): Inverter! @aws_auth(cognito_groups : ["admin"])
+  updateModel(description: String, id: ID!, name: String, notes: String, partNumber: String): Model! @aws_auth(cognito_groups : ["admin"])
+  updateSite(city: String, country: String, customerId: ID, id: ID!, latitude: Float, longitude: Float, name: String, notes: String, state: String, street: String, zip: String): Site! @aws_auth(cognito_groups : ["admin"])
+  updateUser(customerId: ID, email: String, group: UserGroup, name: String, phone_number: String, title: String, username: String!): User @aws_auth(cognito_groups : ["admin"])
+}
+
+#  Schema
+type Query {
+  getActivity(id: ID!): Activity @aws_auth(cognito_groups : ["admin"])
+  getAssociation(fileId: ID!, id: ID!): Association
+  getAssociationsForCustomer: [AssociationsForInverter]
+  # TODO getFileAssociation(fileId: ID!): Association
+  getCustomer(id: ID!): Customer @aws_auth(cognito_groups : ["admin"])
+  getFaultLog(faultLogId: ID!): FaultLog @aws_auth(cognito_groups : ["admin"])
+  getFile(id: ID!): File @aws_auth(cognito_groups : ["admin"])
+  getInverter(id: ID!): Inverter
+  getInverterAssociations(inverterId: ID, serialNumber: String): Associations
+  getInverterBySN(serialNumber: String!): Inverter
+  getSite(id: ID!): Site @aws_auth(cognito_groups : ["admin"])
+  getUser(username: String!): User @aws_auth(cognito_groups : ["admin"])
+  listActivities(filter: ActivityFilter, limit: Int, nextToken: String): Activities @aws_auth(cognito_groups : ["admin"])
+  listActivityByCustomer(customerId: ID!, limit: Int, nextToken: String): Activities @aws_auth(cognito_groups : ["admin"])
+  listActivityByInverter(inverterId: ID!, limit: Int, nextToken: String): Activities @aws_auth(cognito_groups : ["admin"])
+  listCustomers(filter: CustomerFilter, limit: Int, nextToken: String): Customers @aws_auth(cognito_groups : ["admin"])
+  listFaultLogs(filter: FaultLogFilter, limit: Int, nextToken: String): FaultLogs @aws_auth(cognito_groups : ["admin"])
+  listFiles(filter: FileFilter, limit: Int, nextToken: String): Files @aws_auth(cognito_groups : ["admin"])
+  listInverters(filter: InverterFilter, limit: Int, nextToken: String): Inverters @aws_auth(cognito_groups : ["admin"])
+  listModels(filter: ModelFilter, limit: Int, nextToken: String): Models @aws_auth(cognito_groups : ["admin"])
+  listSites(filter: SiteFilter, limit: Int, nextToken: String): Sites @aws_auth(cognito_groups : ["admin"])
+  listUsers(limit: Int, nextToken: String): Users @aws_auth(cognito_groups : ["admin"])
+}
+
+#  Site
+type Site {
+  city: String
+  country: String
+  customer: Customer!
+  id: ID!
+  latitude: Float
+  longitude: Float
+  name: String!
+  notes: String
+  state: String
+  street: String
+  zip: String
+}
+
+type Sites {
+  items: [Site]
+  nextToken: String
+}
+
+type Subscription {
+  activityCreated(inverterId: ID!): Activity @aws_auth(cognito_groups : ["admin"]) @aws_subscribe(mutations : ["createActivity"])
+  associationCreated(owner: String!): Association @aws_subscribe(mutations : ["createAssociation"])
+  associationDeleted(owner: String!): Association @aws_subscribe(mutations : ["deleteAssociation"])
+  fileCreated(owner: String!): File @aws_subscribe(mutations : ["createFile"])
+  fileDeleted(owner: String!): File @aws_subscribe(mutations : ["deleteFile"])
+  fileUpdated(owner: String!): File @aws_subscribe(mutations : ["updateFile"])
+}
+
+type Success {
+  errorMessage: String
+  success: Boolean!
+}
+
+type User {
+  attributes: UserAttributes
+  enabled: Boolean
+  group: UserGroup
+  status: UserStatus
+  username: String
+}
+
+type UserAttributes {
+  customer: Customer
+  email: String
+  name: String
+  phone_number: String
+  sub: ID!
+  title: String
+}
+
+type Users {
+  items: [User]
+  nextToken: String
+}
+
+#  File
+enum FileType {
+  Firmware
+  Log
+  Other
+  PMVS
+  Parameter
+}
+
+enum UserGroup {
+  admin
+  technician
+}
+
+enum UserStatus {
+  confirmed
+  force_change_password
+}
+
+input ActivityFilter {
+  customerId: IDFilter
+  inverterId: IDFilter
+  siteId: IDFilter
+  type: StringFilter
+  userId: IDFilter
+}
+
+input CustomerFilter {
+  city: StringFilter
+  country: StringFilter
+  id: IDFilter
+  name: StringFilter
+  state: StringFilter
+  street: StringFilter
+  zip: StringFilter
+}
+
+input FaultLogFilter {
+  buildTime: StringFilter
+  id: IDFilter
+  inverter: IDFilter
+}
+
+input FileFilter {
+  id: IDFilter
+  type: FileTypeFilter
+}
+
+input FileTypeFilter {
+  beginsWith: FileType
+  between: [FileType]
+  contains: FileType
+  eq: FileType
+  ge: FileType
+  gt: FileType
+  le: FileType
+  lt: FileType
+  ne: FileType
+  notContains: FileType
+}
+
+#  Filters
+input IDFilter {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input InverterFilter {
+  customerId: IDFilter
+  firmwareId: IDFilter
+  modelId: IDFilter
+  serialNumber: StringFilter
+  siteId: IDFilter
+}
+
+input ModelFilter {
+  id: IDFilter
+  name: StringFilter
+}
+
+input SiteFilter {
+  city: StringFilter
+  country: StringFilter
+  customerId: IDFilter
+  id: IDFilter
+  name: StringFilter
+  state: StringFilter
+  street: StringFilter
+  zip: StringFilter
+}
+
+input StringFilter {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
